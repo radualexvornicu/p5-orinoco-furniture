@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Oriteddies c'est la boutique en ligne d'ours en peluche! Il y en a pour tous les gouts et il est possible de choisir la couleur de la peluche. Viens trouver le teddy que tu as toujours voulu!">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">  <!--<script type="text/javascript" src="header.js"></script>-->
+    <link href="https://fonts.googleapis.com/css?family=Pangolin&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Finger+Paint|Roboto&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="favicon.ico" />
+    <title>Oriteddies</title>
+</head>
+<body>
+    <div class="grid-container">
+
+    <header class="header">
+        <h1>
+        <img class="topbar__logo w-25" src="img/logo-banner.png" alt="Logo d'Orinoco">
+    </h1>
+    <nav class="nav topbar__nav d-flex flex-column">
+        <a href="index.html" class="btn btn-info">Accueil</a>
+        <p  class="p-basket"  id="basketCount"></p><a href="basket.html" class="btn btn-success">Basket</a>
+    </nav>
+    </header>
+    <main class="d-md-flex">
+        <div id="basket" class="d-flex flex-column w-50 p-5">
+            <h1>Panier</h1>              
+            <div id="basketInner" class="d-flex flex-column ">
+               
+            </div>
+        </div>
+        <div class="d-flex flex-column w-50 p-5" id="contact">
+            <h1>Contact</h1>
+            <form method="post" action="" name="frm">
+                
+                    <div class="form-group">
+                        <label for="formName">Nom : </label>
+                        <input type="text" id="formName" class="form-control" required name="formNom">
+                    </div>
+                    <div class="form-group">
+                        <label for="formPrename">Prénom :</label>
+                        <input type="text" id="formPrename" class="form-control" required name="formPrenom">
+                    </div>
+                    <div class="form-group">
+                        <label for="formMail">E-mail :</label>
+                        <input type="email" id="formMail" class="form-control" required name="formMail">
+                    </div>
+                
+                
+                    <div class="form-group">
+                        <label for="formAdresse">Adresse :</label>
+                        <input type="text" id="formAdresse" class="form-control" required name="formAdresse">
+                    </div>
+                    <div class="form-group">
+                        <label for="formCity">Ville :</label>
+                        <input type="text" id="formCity" class="form-control" required name="formCity">
+                    </div>
+                    
+                
+                <div class="form-group">
+                    <input type="button" value="Je valide mon panier et mes informations" class="btn btn-dark" id="sendPost">
+                </div> 
+            </form>
+        </div>
+    </main>
+    </div>
+        <script src="../front-end/js/furnitureSort.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/f7591675f1.js" crossorigin="anonymous"></script>
+    <script>
+        let furniture=new furnitureSort();
+        furniture.getFromStorage();
+        furniture.putInBasketCount();
+    </script>  
+</body>
+</html>
