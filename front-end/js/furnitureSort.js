@@ -96,7 +96,7 @@ class furnitureSort {
         if (storageBasketBack) {
             let basketBag = JSON.parse(storageBasketBack);
             if (Array.isArray(basketBag)) {
-                let furnitureBasket = {
+               let furnitureBasket = {
                     name: this.furniture.name,
                     price: this.furniture.price,
                     id: this.furniture._id,
@@ -137,7 +137,7 @@ class furnitureSort {
         console.log(storageBasketBack);
         let basketBag = JSON.parse(storageBasketBack);
         console.log(basketBag);
-        if (storageBasketBack) {
+        if (storageBasketBack && storageBasketBack.length > 0) {
             let basketBag = JSON.parse(storageBasketBack);
             if (Array.isArray(basketBag)) {
                 if (basketBag.length == 0) {
@@ -199,13 +199,14 @@ class furnitureSort {
                     priceTotal.textContent = 'Prix total : ' + total + ' Euro';
                     basketInner.appendChild(priceTotal);
                     let clearBasket = document.createElement("button");
-                    clearBasket.setAttribute('id', 'clearBascket');
+                    clearBasket.setAttribute('id', 'clearBasket');
                     clearBasket.setAttribute('class', 'btn btn-danger w-50');
                     clearBasket.textContent = 'Vider le panier';
                     basket.appendChild(clearBasket);
                     clearBasket.addEventListener('click', () => {
                         localStorage.clear();
                         this.getFromStorage();
+                        console.log(clearBasket);
                         clearBasket.remove();
                         document.getElementById('basketInner').remove();
                     })
@@ -232,19 +233,19 @@ class furnitureSort {
         console.log(basketBag);
         if (storageBasketBack) {
             let basketBag = JSON.parse(storageBasketBack);
-                this.basketBack = basketBag;
-                document.getElementById('basketCount').textContent = basketBag.length;
-            }else {
-                document.getElementById('basketCount').textContent = "0"
-            }
+            this.basketBack = basketBag;
+            document.getElementById('basketCount').textContent = basketBag.length;
+        } else {
+            document.getElementById('basketCount').textContent = "0"
+        }
 
     }
-    
-    putInBasketCount() {        
+
+    putInBasketCount() {
         this.getBasketCount();
         document.getElementById('basket').addEventListener('click', (event) => {
-            console.log('we have a click');
-            this.getBasketCount(event);
+            console.log('we have a click for the basket');
+                this.getBasketCount(event);
         })
     }
     removeFurniture(i) {
