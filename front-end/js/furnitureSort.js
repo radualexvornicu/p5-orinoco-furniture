@@ -100,6 +100,7 @@ class furnitureSort {
                     name: this.furniture.name,
                     price: this.furniture.price,
                     id: this.furniture._id,
+                    count: 1,
                 }
                 console.log(furnitureBasket);
                 basketBag.push(furnitureBasket);
@@ -114,6 +115,7 @@ class furnitureSort {
                 name: this.furniture.name,
                 price: this.furniture.price,
                 id: this.furniture._id,
+                count: 1,
             }
             console.log(furnitureBasket);
             tableBasket.push(furnitureBasket);
@@ -131,7 +133,9 @@ class furnitureSort {
 
         });
     }
+    
 
+      
     getFromStorage() {
         let storageBasketBack = localStorage.getItem('storageBasket');
         console.log(storageBasketBack);
@@ -162,21 +166,31 @@ class furnitureSort {
                     this.basketBack = basketBag;
                     console.log(basketBag.length);
                     let total = 0;
+                    for (let j = 1; j < basketBag.length; j++){
+                            console.log("msg from the for count");
+                           if(basketBag[j-1].id === basketBag[j].id){
+                                console.log("msg from the if count");
+                                basketBag[j-1].count+=1;
+                                this.removeFurniture(j);
+                            }
+                        }
+                    
+                    console.log(basketBag);
                     for (let i = 0; i < basketBag.length; i++) {
-                        document.getElementById('basketCount').textContent = basketBag.length;
                         console.log('inner for message ok');
                         let item = document.createElement("div");
                         item.setAttribute('id', 'item' + [i]);
-                        item.setAttribute('class', 'item d-sm-flex justify-content-between flex-row');
+                        item.setAttribute('class', 'item d-sm-flex justify-content-between flex-row bg-warning rounded p-2');
                         let name = document.createElement("p");
                         name.setAttribute('class', 'w-50');
                         name.textContent = basketBag[i].name;
                         let price = document.createElement("p");
                         price.setAttribute('class', 'w-25');
                         price.textContent = basketBag[i].price / 100 + ' Euro';
-                        let cancel = document.createElement("i");
+                        let cancel = document.createElement("button");
                         cancel.setAttribute('id', 'cancel' + [i]);
-                        cancel.setAttribute('class', 'fas fa-times-circle close');
+                        cancel.setAttribute('class', 'close text-success');
+                        cancel.textContent = "X"
                         cancel.addEventListener('click', (event) => {
                             console.log('this furniture is removed');
                             this.removeFurniture(i);
@@ -190,7 +204,7 @@ class furnitureSort {
                     }
 
                     basketBag.forEach(function (basketBag) {
-                        total += basketBag.price / 100;
+                        total += basketBag.count * basketBag.price / 100;
                     })
                     this.priceFinal = total;
                     console.log(this.priceFinal);
@@ -233,8 +247,11 @@ class furnitureSort {
         console.log(basketBag);
         if (storageBasketBack) {
             let basketBag = JSON.parse(storageBasketBack);
-            this.basketBack = basketBag;
-            document.getElementById('basketCount').textContent = basketBag.length;
+            let count = 0;
+            for (let j = 0; j < basketBag.length; j++){
+                count += basketBag[j].count;
+            }
+            document.getElementById('basketCount').textContent = count;
         } else {
             document.getElementById('basketCount').textContent = "0"
         }
@@ -248,6 +265,7 @@ class furnitureSort {
                 this.getBasketCount(event);
         })
     }
+    
     removeFurniture(i) {
         console.log('it has been canceled');
         this.basketBack.splice(i, 1);
