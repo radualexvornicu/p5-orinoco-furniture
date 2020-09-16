@@ -134,7 +134,17 @@ class furnitureSort {
         });
     }
     
-
+    countDuplicat(basketBag){
+        for (let j = 1; j < basketBag.length; j++){
+            console.log("msg from the for count");
+           if(basketBag[j-1].id === basketBag[j].id){
+                console.log("msg from the if count");
+                basketBag[j-1].count+=1;
+                this.removeFurniture(j);
+            }
+        }
+        return basketBag;
+    }
       
     getFromStorage() {
         let storageBasketBack = localStorage.getItem('storageBasket');
@@ -166,29 +176,22 @@ class furnitureSort {
                     this.basketBack = basketBag;
                     console.log(basketBag.length);
                     let total = 0;
-                    for (let j = 1; j < basketBag.length; j++){
-                            console.log("msg from the for count");
-                           if(basketBag[j-1].id === basketBag[j].id){
-                                console.log("msg from the if count");
-                                basketBag[j-1].count+=1;
-                                this.removeFurniture(j);
-                            }
-                        }
+                    this.countDuplicat(basketBag);
                     
                     console.log(basketBag);
                     for (let i = 0; i < basketBag.length; i++) {
                         console.log('inner for message ok');
                         let item = document.createElement("div");
                         item.setAttribute('id', 'item' + [i]);
-                        item.setAttribute('class', 'item d-sm-flex justify-content-between flex-row bg-warning rounded p-2');
+                        item.setAttribute('class', 'item d-sm-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
                         let name = document.createElement("p");
-                        name.setAttribute('class', 'w-50');
+                        name.setAttribute('class', 'w-50 m-0');
                         name.textContent = basketBag[i].name;
                         let price = document.createElement("p");
-                        price.setAttribute('class', 'w-25');
-                        price.textContent = basketBag[i].price / 100 + ' Euro';
+                        price.setAttribute('class', 'w-25 m-0');
+                        price.textContent = basketBag[i].count * basketBag[i].price / 100 + ' Euro';
                         let increment = document.createElement("p");
-                        increment.setAttribute('class', 'w-25');
+                        increment.setAttribute('class', 'w-25 m-0');
                         console.log(increment);
                         console.log(increment.textContent = basketBag[i].count);
                         increment.textContent = 'X ' + basketBag[i].count;
