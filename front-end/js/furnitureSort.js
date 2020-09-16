@@ -187,10 +187,15 @@ class furnitureSort {
                         let price = document.createElement("p");
                         price.setAttribute('class', 'w-25');
                         price.textContent = basketBag[i].price / 100 + ' Euro';
+                        let increment = document.createElement("p");
+                        increment.setAttribute('class', 'w-25');
+                        console.log(increment);
+                        console.log(increment.textContent = basketBag[i].count);
+                        increment.textContent = 'X ' + basketBag[i].count;
                         let cancel = document.createElement("button");
                         cancel.setAttribute('id', 'cancel' + [i]);
                         cancel.setAttribute('class', 'close text-success');
-                        cancel.textContent = "X"
+                        cancel.textContent = "x"
                         cancel.addEventListener('click', (event) => {
                             console.log('this furniture is removed');
                             this.removeFurniture(i);
@@ -198,6 +203,7 @@ class furnitureSort {
                         let hr = document.createElement("hr");
                         basketInner.appendChild(item);
                         item.appendChild(name);
+                        item.appendChild(increment);
                         item.appendChild(price);
                         item.appendChild(cancel);
                         basketInner.appendChild(hr);
