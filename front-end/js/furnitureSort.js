@@ -136,14 +136,22 @@ class furnitureSort {
     
     countDuplicat(basketBag){
         for (let j = 1; j < basketBag.length; j++){
-            console.log("msg from the for count");
-           if(basketBag[j-1].id === basketBag[j].id){
-                console.log("msg from the if count");
+            for (let x = j; x < basketBag.length; x++) 
+           if(basketBag[j-1].id === basketBag[x].id){
                 basketBag[j-1].count+=1;
-                this.removeFurniture(j);
+                this.removeDuplicat(x);
             }
         }
-        return basketBag;
+    }
+    removeDuplicat(i) {
+        console.log('we have a duplicat');
+        this.basketBack.splice(i, 1);
+        let storageBasketBack = JSON.stringify(this.basketBack);
+        console.log(storageBasketBack);
+        localStorage.clear();
+        console.log('localStorage empty');
+        localStorage.setItem('storageBasket', storageBasketBack);
+        console.log('localStorage has been updated?');
     }
       
     getFromStorage() {
