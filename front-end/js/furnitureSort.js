@@ -1,4 +1,4 @@
-const serverUrl = "http://localhost:3000/api/furniture";
+const serverUrl = "http://localhost:3000/api/furniture/";
 
 class furnitureSort {
     constructor() {
@@ -15,7 +15,7 @@ class furnitureSort {
     }
 
     getAllFurniture = async function () {
-        let response = await fetch('http://localhost:3000/api/furniture')
+        let response = await fetch(serverUrl)
 
         if (response.ok) {
             return response.json()
@@ -29,7 +29,6 @@ class furnitureSort {
         const furnitureAll = this.getAllFurniture();
         furnitureAll.then(function (json) {
             json.forEach(function (furnitureOne) {
-
                 let iconFurniture = document.createElement("div");
                 iconFurniture.setAttribute('class', 'card bg-secondary text-white w-25 m-2');
                 iconFurniture.setAttribute('id', 'icon');
@@ -47,7 +46,7 @@ class furnitureSort {
                 priceFurniture.setAttribute('class', 'card-text m-0');
                 let buttonFurniture = document.createElement("a");
                 buttonFurniture.textContent = "Détails " + furnitureOne.name;
-                buttonFurniture.setAttribute('class', 'btn btn-dark');
+                buttonFurniture.setAttribute('class', 'btn btn-warning');
                 buttonFurniture.setAttribute('href', 'product.html?id=' + furnitureOne._id);
                 holder.appendChild(iconFurniture);
                 iconFurniture.appendChild(imageFurniture);
@@ -57,9 +56,6 @@ class furnitureSort {
                 tagFurniture.appendChild(buttonFurniture);
             })
         });
-
-
-        //* document.getElementById('error').remove(); to do 
     };
     getOneFurniture() {
         let id = location.search.substring(4);
@@ -85,8 +81,6 @@ class furnitureSort {
             .catch(function (error) {
                 console.log('Problem with fetch to server:' + error.message);
             });
-
-
     }
 
     addFurniture(event) {
@@ -142,6 +136,12 @@ class furnitureSort {
                 this.removeDuplicat(x);
             }
         }
+        for (let j = 1; j < basketBag.length; j++){
+            if(basketBag[j-1].id === basketBag[j].id){
+                basketBag[j-1].count+=1;
+                this.removeDuplicat(j);
+            }
+        }
     }
     removeDuplicat(i) {
         console.log('we have a duplicat');
@@ -184,8 +184,7 @@ class furnitureSort {
                     this.basketBack = basketBag;
                     console.log(basketBag.length);
                     let total = 0;
-                    this.countDuplicat(basketBag);
-                    
+                    this.countDuplicat(basketBag);                    
                     console.log(basketBag);
                     for (let i = 0; i < basketBag.length; i++) {
                         console.log('inner for message ok');
@@ -219,7 +218,6 @@ class furnitureSort {
                         item.appendChild(cancel);
                         basketInner.appendChild(hr);
                     }
-
                     basketBag.forEach(function (basketBag) {
                         total += basketBag.count * basketBag.price / 100;
                     })
@@ -285,14 +283,26 @@ class furnitureSort {
     
     removeFurniture(i) {
         console.log('it has been canceled');
-        this.basketBack.splice(i, 1);
-        console.log(this.basketBack);
-        let storageBasketBack = JSON.stringify(this.basketBack);
-        console.log(storageBasketBack);
-        localStorage.clear();
-        console.log('localStorage empty');
-        localStorage.setItem('storageBasket', storageBasketBack);
-        console.log('localStorage has been updated?');
+        if(this.basketBack[i].count > 1){
+            console.log('count reduced');
+            this.basketBack[i].count -=1;
+            console.log(this.basketBack[i].count);
+            let storageBasketBack = JSON.stringify(this.basketBack);
+            localStorage.clear();
+            localStorage.setItem('storageBasket', storageBasketBack);
+            console.log('localStorage has been updated? after the count reduce?');
+        }else{
+            this.basketBack.splice(i, 1);
+            console.log(this.basketBack);
+            let storageBasketBack = JSON.stringify(this.basketBack);
+            console.log(storageBasketBack);
+            localStorage.clear();
+            console.log('localStorage empty');
+            localStorage.setItem('storageBasket', storageBasketBack);
+            console.log('localStorage has been updated?');
+            this.getFromStorage();
+
+        }        
         this.getFromStorage();
     }
     checkEmptyInput(event) {
@@ -357,11 +367,19 @@ class furnitureSort {
         }
         if (nomber.test(formName) == false && nomber.test(formPrename) == false && nomber.test(formCity) == false && verifyAt.test(formMail) == true) {
             console.log('Ok to POST !')
-            let arrayProductsT = [];
+            this.postFurniture();
+        } else {
+
+            console.log('problem in order');
+            alert('ERREUR :' + br + br + mes);
+        }
+    };
+    postFurniture() {
+        let arrayProductsT = [];
             console.log(this.basketBack)
             this.basketBack.forEach(function (basketBag) {
                 console.log('table demanted to be fill')
-                arrayProductsT.push(basketBag.id);
+                arrayProductsT.push(basketBag.id, basketBag.count);
                 console.log(arrayProductsT);
             });
             this.arrayProducts = arrayProductsT;
@@ -374,49 +392,42 @@ class furnitureSort {
                 city: document.getElementById('formCity').value,
                 email: document.getElementById('formMail').value,
             }
-            this.objetPost = {
+            let data = {
                 products: this.arrayProducts,
                 contact: this.contact,
             }
-            console.log(this.objetPost);
-            this.stuffPost = JSON.stringify(this.objetPost);
-            console.log(this.stuffPost);
-            this.postFurniture(event);
-        } else {
+            console.log(data);
 
-            console.log('problem in order');
-            alert('ERREUR :' + br + br + mes);
-        }
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+    
+            fetch('http://localhost:3000/api/furniture/order', { method: 'POST', body: JSON.stringify(data), headers: headers }).then(response => {
+    
+                    if (response.status === 201) {
+                            return response.json();
+                    }
+    
+            }).then(data => {
+                    localStorage.clear();
+                    let total = this.priceFinal;
+                    localStorage.setItem('total', JSON.stringify(total));
+                    console.log(total);
+    
+                    if (total == 0) {
+                           
+                            console.log('Votre panier est vide, merci d'ajouter un article');
+                    }
+    
+                    if (total != 0) {
+                            window.location = 'confirmation.html?order=' + data;
+                    }
+            })
     };
-    postFurniture() {
-        console.log(this.priceFinal);
-        sessionStorage.setItem('price', this.priceFinal);
-        return new Promise((resolve) => {
-            console.log('Postin order?');
-            let post = new XMLHttpRequest();
-            post.onload = function () {
-                if (this.readyState == XMLHttpRequest.DONE && this.status == 201) {
-                    let theResponse = JSON.parse(this.responseText);
-                    console.log(theResponse);
-                    console.log(theResponse.orderId);
-                    sessionStorage.setItem('number', theResponse.orderId);
-                    document.forms['frm'].action = '/confirmation.html';
-                    document.forms['frm'].submit();
-                    resolve(theResponse);
-                } else {
-                    console.log('error in the post');
-                }
-            };
-            post.open("POST", serverUrl + "order");
-            post.setRequestHeader("Content-Type", "application/json");
-            post.send(this.trucPost);
-        });
-    }
-    async showOrder() {
+     showOrder() {
         console.log('let\'s the show begin !');
-        let numberFinal = sessionStorage.getItem('number');
-        console.log(numberFinal);
-        let priceShow = sessionStorage.getItem('price');
+        let orderFinal = sessionStorage.getItem('order');
+        console.log(orderFinal);
+        let priceShow = sessionStorage.getItem('total');
         console.log(priceShow);
         let name = sessionStorage.getItem('name');
         let merciMess = document.getElementById('name');
