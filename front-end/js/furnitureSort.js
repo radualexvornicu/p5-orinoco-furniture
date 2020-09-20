@@ -415,7 +415,7 @@ class furnitureSort {
     
                     if (total == 0) {
                            
-                            console.log('Votre panier est vide, merci d'ajouter un article');
+                            console.log("Votre panier est vide, merci d'ajouter un article");
                     }
     
                     if (total != 0) {
