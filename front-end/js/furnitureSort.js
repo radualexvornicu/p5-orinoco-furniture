@@ -398,10 +398,27 @@ class furnitureSort {
             }
             console.log(data);
 
-            const headers = new Headers();
-            headers.append('Content-Type', 'application/json');
-    
-            fetch('http://localhost:3000/api/furniture/order', { method: 'POST', body: JSON.stringify(data), headers: headers }).then(response => {
+            fetch('http://localhost:3000/api/furniture/order', {
+                method: 'post',
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+              }).then(res=>res.json())
+                .then(res => console.log(res));
+           
+           /* const rawResponse =  fetch('http://localhost:3000/api/furniture/order', {
+              method: 'POST',
+               body: JSON.stringify(data),
+               headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                     }, })
+                     const content = rawResponse.json();
+
+                     console.log(content);
+             /*  .then(response => {
     
                     if (response.status === 201) {
                             return response.json();
@@ -421,7 +438,7 @@ class furnitureSort {
                     if (total != 0) {
                             window.location = 'confirmation.html?order=' + data;
                     }
-            })
+            }) */
     };
      showOrder() {
         console.log('let\'s the show begin !');
