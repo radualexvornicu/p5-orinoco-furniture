@@ -47,7 +47,7 @@ class furnitureSort {
                 let buttonFurniture = document.createElement("a");
                 buttonFurniture.textContent = "Détails " + furnitureOne.name;
                 buttonFurniture.setAttribute('class', 'btn btn-warning');
-                buttonFurniture.setAttribute('href', 'product.html?id=' + furnitureOne._id);
+                buttonFurniture.setAttribute('href', 'produit.html?id=' + furnitureOne._id);
                 holder.appendChild(iconFurniture);
                 iconFurniture.appendChild(imageFurniture);
                 iconFurniture.appendChild(tagFurniture);
