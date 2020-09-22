@@ -82,7 +82,22 @@ class furnitureSort {
                 console.log('Problem with fetch to server:' + error.message);
             });
     }
-
+    checkIfDuplicat(basketBag, furnitureBasket) {
+        let ok = 1;
+        for (let i = 0; i < basketBag.length; i++) {
+            if (basketBag[i].id === this.furniture._id) {
+                basketBag[i].count++;
+                i = basketBag.length;
+                ok = 0;
+            }
+        }
+        if (ok === 1) {
+            console.log(furnitureBasket);
+            basketBag.push(furnitureBasket);
+            console.log(basketBag);
+        }
+        return basketBag;
+    }
     addFurniture(event) {
         console.log(this.furniture);
         let storageBasketBack = localStorage.getItem('storageBasket');
@@ -90,15 +105,14 @@ class furnitureSort {
         if (storageBasketBack) {
             let basketBag = JSON.parse(storageBasketBack);
             if (Array.isArray(basketBag)) {
-               let furnitureBasket = {
+                let furnitureBasket = {
                     name: this.furniture.name,
                     price: this.furniture.price,
                     id: this.furniture._id,
                     count: 1,
                 }
-                console.log(furnitureBasket);
-                basketBag.push(furnitureBasket);
-                console.log(basketBag);
+                this.checkIfDuplicat(basketBag, furnitureBasket);
+
                 let storageBasketGo = JSON.stringify(basketBag);
                 console.log(storageBasketGo);
                 localStorage.setItem('storageBasket', storageBasketGo);
@@ -118,6 +132,7 @@ class furnitureSort {
             console.log(storageBasketGo);
             localStorage.setItem('storageBasket', storageBasketGo);
         }
+        this.getBasketCount();
     }
     putInStorage() {
         document.getElementById('basket').addEventListener('click', (event) => {
@@ -127,33 +142,6 @@ class furnitureSort {
 
         });
     }
-    
-    countDuplicat(basketBag){
-        for (let j = 1; j < basketBag.length; j++){
-            for (let x = j; x < basketBag.length; x++) 
-           if(basketBag[j-1].id === basketBag[x].id){
-                basketBag[j-1].count+=1;
-                this.removeDuplicat(x);
-            }
-        }
-      /*  for (let j = 1; j < basketBag.length; j++){
-            if(basketBag[j-1].id === basketBag[j].id){
-                basketBag[j-1].count+=1;
-                this.removeDuplicat(j);
-            }
-        } */
-    }
-    removeDuplicat(i) {
-        console.log('we have a duplicat');
-        this.basketBack.splice(i, 1);
-        let storageBasketBack = JSON.stringify(this.basketBack);
-        console.log(storageBasketBack);
-        localStorage.clear();
-        console.log('localStorage empty');
-        localStorage.setItem('storageBasket', storageBasketBack);
-        console.log('localStorage has been updated?');
-    }
-      
     getFromStorage() {
         let storageBasketBack = localStorage.getItem('storageBasket');
         console.log(storageBasketBack);
@@ -184,7 +172,6 @@ class furnitureSort {
                     this.basketBack = basketBag;
                     console.log(basketBag.length);
                     let total = 0;
-                    this.countDuplicat(basketBag);                    
                     console.log(basketBag);
                     for (let i = 0; i < basketBag.length; i++) {
                         console.log('inner for message ok');
@@ -255,7 +242,7 @@ class furnitureSort {
         })
     }
 
-    getBasketCount(event) {
+    getBasketCount() {
         let storageBasketBack = localStorage.getItem('storageBasket');
         console.log(storageBasketBack);
         let basketBag = JSON.parse(storageBasketBack);
@@ -263,7 +250,7 @@ class furnitureSort {
         if (storageBasketBack) {
             let basketBag = JSON.parse(storageBasketBack);
             let count = 0;
-            for (let j = 0; j < basketBag.length; j++){
+            for (let j = 0; j < basketBag.length; j++) {
                 count += basketBag[j].count;
             }
             document.getElementById('basketCount').textContent = count;
@@ -273,25 +260,17 @@ class furnitureSort {
 
     }
 
-    putInBasketCount() {
-        this.getBasketCount();
-        document.getElementById('basket').addEventListener('click', (event) => {
-            console.log('we have a click for the basket');
-                this.getBasketCount(event);
-        })
-    }
-    
     removeFurniture(i) {
         console.log('it has been canceled');
-        if(this.basketBack[i].count > 1){
+        if (this.basketBack[i].count > 1) {
             console.log('count reduced');
-            this.basketBack[i].count -=1;
+            this.basketBack[i].count -= 1;
             console.log(this.basketBack[i].count);
             let storageBasketBack = JSON.stringify(this.basketBack);
             localStorage.clear();
             localStorage.setItem('storageBasket', storageBasketBack);
             console.log('localStorage has been updated? after the count reduce?');
-        }else{
+        } else {
             this.basketBack.splice(i, 1);
             console.log(this.basketBack);
             let storageBasketBack = JSON.stringify(this.basketBack);
@@ -301,9 +280,9 @@ class furnitureSort {
             localStorage.setItem('storageBasket', storageBasketBack);
             console.log('localStorage has been updated?');
             this.getFromStorage();
-
-        }        
+        }
         this.getFromStorage();
+        this.getBasketCount();
     }
     checkEmptyInput(event) {
         event.preventDefault();
@@ -328,7 +307,7 @@ class furnitureSort {
                 this.controlBasket(event);
             }
         } else {
-            alert('Basket void')
+            alert("Votre panier est vide, merci d'ajouter un article")
         }
     }
     controlBasket(event) {
@@ -376,40 +355,40 @@ class furnitureSort {
     };
     postFurniture() {
         let arrayProductsT = [];
-            console.log(this.basketBack)
-            this.basketBack.forEach(function (basketBag) {
-                console.log('table demanted to be fill')
-                arrayProductsT.push(basketBag.id);
-                console.log(arrayProductsT);
-            });
-            this.arrayProducts = arrayProductsT;
-            sessionStorage.clear();
-            sessionStorage.setItem('name', document.getElementById('formPrename').value);
-            this.contact = {
-                firstName: document.getElementById('formPrename').value,
-                lastName: document.getElementById('formName').value,
-                address: document.getElementById('formAdresse').value,
-                city: document.getElementById('formCity').value,
-                email: document.getElementById('formMail').value,
-            }
-            let data = {
-                products: this.arrayProducts,
-                contact: this.contact,
-            }
-            console.log(data);
+        console.log(this.basketBack)
+        this.basketBack.forEach(function (basketBag) {
+            console.log('table demanted to be fill')
+            arrayProductsT.push(basketBag.id);
+            console.log(arrayProductsT);
+        });
+        this.arrayProducts = arrayProductsT;
+        sessionStorage.clear();
+        sessionStorage.setItem('name', document.getElementById('formPrename').value);
+        this.contact = {
+            firstName: document.getElementById('formPrename').value,
+            lastName: document.getElementById('formName').value,
+            address: document.getElementById('formAdresse').value,
+            city: document.getElementById('formCity').value,
+            email: document.getElementById('formMail').value,
+        }
+        let data = {
+            products: this.arrayProducts,
+            contact: this.contact,
+        }
+        console.log(data);
 
-            fetch('http://localhost:3000/api/furniture/order', {
-                method: 'post',
-                headers: {
-                  'Accept': 'application/json, text/plain, */*',
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-              }).then(res=>{
+        fetch('http://localhost:3000/api/furniture/order', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => {
 
-                if (res.status === 201) {
-                        return res.json();
-                }
+            if (res.status === 201) {
+                return res.json();
+            }
 
         }).then(data => {
             console.log(data.contact);
@@ -419,17 +398,17 @@ class furnitureSort {
 
             //si le panier est vide la commande n'est pas envoyée au serveur
             if (this.priceFinal == 0) {
-                    valid.textContent = "Votre panier est vide, merci d'ajouter un article";
+                alert("Votre panier est vide, merci d'ajouter un article")
             }
 
             // si le panier contient au moins un article, la commande peut être envoyée au serveur (si le formulaire est valide)
             if (this.priceFinal != 0) {
-                    window.location = 'confirmation.html?order=' + data.orderId;
+                window.location = 'confirmation.html?order=' + data.orderId;
             }
-    })
-                  
+        })
+
     };
-     showOrder() {
+    showOrder() {
         console.log('let\'s the show begin !');
         let orderFinal = sessionStorage.getItem('order');
         console.log(orderFinal);
