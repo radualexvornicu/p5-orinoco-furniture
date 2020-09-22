@@ -112,7 +112,6 @@ class furnitureSort {
                     count: 1,
                 }
                 this.checkIfDuplicat(basketBag, furnitureBasket);
-
                 let storageBasketGo = JSON.stringify(basketBag);
                 console.log(storageBasketGo);
                 localStorage.setItem('storageBasket', storageBasketGo);
@@ -142,6 +141,93 @@ class furnitureSort {
 
         });
     }
+    createItemsInBasket(basketBag) {
+        this.basketBack = basketBag;
+        console.log(this.basketBack.length);
+        console.log(this.basketBack);
+        for (let i = 0; i < this.basketBack.length; i++) {
+            console.log('inner for message ok');
+            let item = document.createElement("div");
+            item.setAttribute('id', 'item' + [i]);
+            item.setAttribute('class', 'item d-sm-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
+            let name = document.createElement("p");
+            name.setAttribute('class', 'w-50 m-0');
+            name.textContent = this.basketBack[i].name;
+            let price = document.createElement("p");
+            price.setAttribute('class', 'w-50 m-0');
+            price.textContent = this.basketBack[i].count * this.basketBack[i].price / 100 + ' Euro';
+            let increment = document.createElement("p");
+            increment.setAttribute('class', 'w-50 m-0');
+            console.log(increment);
+            increment.textContent = 'X ' + this.basketBack[i].count;
+            let cancel = document.createElement("button");
+            cancel.setAttribute('id', 'cancel' + [i]);
+            cancel.setAttribute('class', 'close text-success');
+            cancel.textContent = "x"
+            cancel.addEventListener('click', (event) => {
+                console.log('this furniture is removed');
+                this.removeFurniture(i);
+            })
+            let hr = document.createElement("hr");
+            basketInner.appendChild(item);
+            item.appendChild(name);
+            item.appendChild(increment);
+            item.appendChild(price);
+            item.appendChild(cancel);
+            basketInner.appendChild(hr);
+        }
+    }
+    createTotalprice(basketBag){
+        this.basketBack = basketBag;
+        let total = 0;
+        this.basketBack.forEach(function (basketBag) {
+            total += basketBag.count * basketBag.price / 100;
+        })
+        this.priceFinal = total;
+        console.log(this.priceFinal);
+        let priceTotal = document.createElement("div");
+        priceTotal.setAttribute('class', 'p-2 w-50 m-0');
+        priceTotal.textContent = 'Prix total : ' + this.priceFinal + ' Euro';
+        basketInner.appendChild(priceTotal);
+    }
+    createClearBasket(){
+        let clearBasket = document.createElement("button");
+        clearBasket.setAttribute('id', 'clearBasket');
+        clearBasket.setAttribute('class', 'btn btn-danger w-50');
+        clearBasket.textContent = 'Vider le panier';
+        basket.appendChild(clearBasket);
+        clearBasket.addEventListener('click', () => {
+            localStorage.clear();
+            this.getFromStorage();
+            console.log(clearBasket);
+            clearBasket.remove();
+            document.getElementById('basketInner').remove();
+        })
+    }
+    createPanierVide(){
+        let basketVoid = document.createElement("p");
+        basketVoid.setAttribute('id', 'PanierVide');
+        basketVoid.setAttribute('class', 'w-50 m-0');
+        basketVoid.textContent = 'Panier vide';
+        basket.appendChild(basketVoid);
+    }
+    basketTextCheck(basketBag) {
+        if (basketBag.length == 0) {
+            console.log(basketBag.length);
+            this.createPanierVide();
+            if (document.getElementById('clearBasket')) {
+                document.getElementById('clearBasket').remove();
+                document.getElementById('PanierVide').remove();
+            } else {
+                document.getElementById('basketInner').remove();
+            }
+        } else {
+            document.getElementById('basketInner').innerHTML = null;
+            if (document.getElementById('clearBasket')) {
+                document.getElementById('clearBasket').remove();
+            }
+        }
+    }
     getFromStorage() {
         let storageBasketBack = localStorage.getItem('storageBasket');
         console.log(storageBasketBack);
@@ -151,90 +237,19 @@ class furnitureSort {
             let basketBag = JSON.parse(storageBasketBack);
             if (Array.isArray(basketBag)) {
                 if (basketBag.length == 0) {
-                    console.log(basketBag.length);
-                    let basketVoid = document.createElement("p");
-                    basketVoid.setAttribute('class', '');
-                    basketVoid.textContent = 'Panier vide';
-                    basket.appendChild(basketVoid);
-
-                    if (document.getElementById('clearBasket')) {
-                        document.getElementById('clearBasket').remove();
-                    } else {
-                        document.getElementById('basketInner').remove();
-
-                    }
+                    this.basketTextCheck(basketBag);
                 } else {
-                    document.getElementById('basketInner').innerHTML = null;
-                    if (document.getElementById('clearBasket')) {
-                        document.getElementById('clearBasket').remove();
-                    } else {
-                    }
-                    this.basketBack = basketBag;
-                    console.log(basketBag.length);
-                    let total = 0;
-                    console.log(basketBag);
-                    for (let i = 0; i < basketBag.length; i++) {
-                        console.log('inner for message ok');
-                        let item = document.createElement("div");
-                        item.setAttribute('id', 'item' + [i]);
-                        item.setAttribute('class', 'item d-sm-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
-                        let name = document.createElement("p");
-                        name.setAttribute('class', 'w-50 m-0');
-                        name.textContent = basketBag[i].name;
-                        let price = document.createElement("p");
-                        price.setAttribute('class', 'w-25 m-0');
-                        price.textContent = basketBag[i].count * basketBag[i].price / 100 + ' Euro';
-                        let increment = document.createElement("p");
-                        increment.setAttribute('class', 'w-25 m-0');
-                        console.log(increment);
-                        console.log(increment.textContent = basketBag[i].count);
-                        increment.textContent = 'X ' + basketBag[i].count;
-                        let cancel = document.createElement("button");
-                        cancel.setAttribute('id', 'cancel' + [i]);
-                        cancel.setAttribute('class', 'close text-success');
-                        cancel.textContent = "x"
-                        cancel.addEventListener('click', (event) => {
-                            console.log('this furniture is removed');
-                            this.removeFurniture(i);
-                        })
-                        let hr = document.createElement("hr");
-                        basketInner.appendChild(item);
-                        item.appendChild(name);
-                        item.appendChild(increment);
-                        item.appendChild(price);
-                        item.appendChild(cancel);
-                        basketInner.appendChild(hr);
-                    }
-                    basketBag.forEach(function (basketBag) {
-                        total += basketBag.count * basketBag.price / 100;
-                    })
-                    this.priceFinal = total;
-                    console.log(this.priceFinal);
-                    let priceTotal = document.createElement("div");
-                    priceTotal.setAttribute('class', 'p-4');
-                    priceTotal.textContent = 'Prix total : ' + total + ' Euro';
-                    basketInner.appendChild(priceTotal);
-                    let clearBasket = document.createElement("button");
-                    clearBasket.setAttribute('id', 'clearBasket');
-                    clearBasket.setAttribute('class', 'btn btn-danger w-50');
-                    clearBasket.textContent = 'Vider le panier';
-                    basket.appendChild(clearBasket);
-                    clearBasket.addEventListener('click', () => {
-                        localStorage.clear();
-                        this.getFromStorage();
-                        console.log(clearBasket);
-                        clearBasket.remove();
-                        document.getElementById('basketInner').remove();
-                    })
+                    this.basketTextCheck(basketBag);
+                    this.createItemsInBasket(basketBag);
+                    this.createTotalprice(basketBag);
+                    this.createClearBasket();
+
                 }
             } else {
                 console.log('this is not a table');
             }
         } else {
-            let basketVoid = document.createElement("p");
-            basketVoid.setAttribute('class', '');
-            basketVoid.textContent = 'Panier vide';
-            basket.appendChild(basketVoid);
+            this.createPanierVide();            
         }
         document.getElementById('sendPost').addEventListener('click', (event) => {
             console.log('we have a click');
@@ -280,9 +295,12 @@ class furnitureSort {
             localStorage.setItem('storageBasket', storageBasketBack);
             console.log('localStorage has been updated?');
             this.getFromStorage();
+
         }
         this.getFromStorage();
         this.getBasketCount();
+
+
     }
     checkEmptyInput(event) {
         event.preventDefault();
