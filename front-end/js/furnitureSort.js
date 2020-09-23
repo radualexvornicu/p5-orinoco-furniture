@@ -376,49 +376,25 @@ class furnitureSort {
             alert("Votre panier est vide, merci d'ajouter un article")
         }
     }
-//vérifie les inputs du formulaire
+// Vérifie les inputs du formulaire
     controlBasket(event) {
         event.preventDefault();
         console.log('Go Go control !');
-        let nomber = /[0-9]/;
-        let verifyAt = /.+@.+\..+/;
+        let regex = /[~`!#$%\^&*+=\-\[\]\';,/{}|\":<>\?0123456789 ]/;
+        let regexAddress = /[~`!#$%\^&*+=\-\[\]\';/{}|\":<>\?]/;
+        let regexMail = /.+@.+\..+/;
         let formName = document.getElementById('formName').value;
         let formPrename = document.getElementById('formPrename').value;
+        let formAdresse = document.getElementById('formAdresse').value;
         let formCity = document.getElementById('formCity').value;
         let formMail = document.getElementById('formMail').value;
-        let br = '\n', mes = '';
-        if (nomber.test(formName) == true) {
-            console.log('Name is invalid');
-            mes = mes + br + ' - Nom invalide;';
-        } else {
-            console.log('Name ok')
+        if(formName.match(regex) || formPrename.match(regex) || formAdresse.match(regexAddress) || formAdresse == ' '  || formCity.match(regex) || !formMail.match(regexMail))
+        {
+            alert('ERREUR : Veuillez remplir correctement les champs avec des lettres'); 
         }
-        if (nomber.test(formPrename) == true) {
-            console.log('Prename invalide');
-            mes = mes + br + ' - Prénom invalide;';
-        } else {
-            console.log('Prename ok')
-        }
-        if (nomber.test(formCity) == true) {
-            console.log('City invalide');
-            mes = mes + br + ' - Nom de ville invalide;';
-        } else {
-            console.log('City  ok')
-        }
-        if (verifyAt.test(formMail) == false) {
-            console.log('mail invalide');
-            mes = mes + br + ' - Mail invalide;';
-        } else {
-            console.log('Mail ok')
-        }
-        if (nomber.test(formName) == false && nomber.test(formPrename) == false && nomber.test(formCity) == false && verifyAt.test(formMail) == true) {
-            console.log('Ok to POST !')
-// Passer à la page confirmation / fonction objet à POST
+        else{
+            console.log('Ok to POST !');
             this.postFurniture();
-        } else {
-// Affiche le message d'erreur
-            console.log('problem in order');
-            alert('ERREUR :' + br + br + mes);
         }
     };
 // Envoie la requête post de la commande avec le tableau d'items et l'objet contact
@@ -449,7 +425,6 @@ class furnitureSort {
 // définition de la requête POST au serveur
 // et des actions: vide le panier (localStorage), met la valeur du montant total du panier dans le localStorage
         console.log(data);
-
         fetch('http://localhost:3000/api/furniture/order', {
             method: 'post',
             headers: {
