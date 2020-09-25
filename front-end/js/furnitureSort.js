@@ -125,6 +125,7 @@ class furnitureSort {
                     price: this.furniture.price,
                     id: this.furniture._id,
                     count: 1,
+                    url: this.furniture.imageUrl,
                 }
 // Apell aux fonction qui verifier si l'utilisateur adjout un neuveau produit
 // ou un produit qui exist deja
@@ -143,6 +144,7 @@ class furnitureSort {
                 price: this.furniture.price,
                 id: this.furniture._id,
                 count: 1,
+                url: this.furniture.imageUrl,
             }
             console.log(furnitureBasket);
             tableBasket.push(furnitureBasket);
@@ -161,7 +163,7 @@ class furnitureSort {
             console.log(this);
 // Apell aux fonction qui va adjoute le produit aux panier
             this.addFurniture(event);
-            alert("Vous avez ajouté ce produit dans votre panier!'\n'Vous pourvez returner a la liste des produits!'\n'Ou verifier votre panier!")
+            alert("Vous avez ajouté ce produit dans votre panier!'\n'Vous pouvez retourner à la liste des produits!'\n'Ou verifier votre panier!")
 
         });
     }
@@ -175,13 +177,18 @@ class furnitureSort {
             console.log('inner for message ok');
 // Cree un 'div' HTLM dans le fichier panier.html qui contient le Name, count et price + button de souprime le produit
             let item = document.createElement("div");
-// Cree un 'p' avec le Name
+// Cree un 'img' avec la image du produit
             item.setAttribute('id', 'item' + [i]);
             item.setAttribute('class', 'item d-sm-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
+            let icon = document.createElement("img");
+            icon.setAttribute('src', this.basketBack[i].url);
+            icon.setAttribute('class', 'img-fluid rounded w-25');
+            icon.setAttribute('alt', 'icon of this furniture');
+// Cree un 'p' avec le Nom
             let name = document.createElement("p");
-            name.setAttribute('class', 'w-50 m-0');
+            name.setAttribute('class', 'w-50 m-1');
             name.textContent = this.basketBack[i].name;
-// Cree un 'p' avec le Price
+// Cree un 'p' avec le Prix
             let price = document.createElement("p");
             price.setAttribute('class', 'w-50 m-0');
             price.textContent = this.basketBack[i].count * this.basketBack[i].price / 100 + ' Euro';
@@ -200,6 +207,7 @@ class furnitureSort {
             })
             let hr = document.createElement("hr");
             basketInner.appendChild(item);
+            item.appendChild(icon);
             item.appendChild(name);
             item.appendChild(increment);
             item.appendChild(price);
