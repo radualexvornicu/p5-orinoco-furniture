@@ -239,6 +239,7 @@ class furnitureSort {
         clearBasket.addEventListener('click', () => {
             localStorage.clear();
             this.getFromStorage();
+            this.getBasketCount();
             console.log(clearBasket);
             clearBasket.remove();
             document.getElementById('basketInner').remove();
