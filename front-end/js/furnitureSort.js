@@ -422,7 +422,7 @@ class furnitureSort {
             products: this.arrayProducts,
             contact: this.contact,
         }
-// définition de la requête POST au serveur
+// Définition de la requête POST au serveur
 // et des actions: vide le panier (localStorage), met la valeur du montant total du panier dans le localStorage
         console.log(data);
         fetch('http://localhost:3000/api/furniture/order', {
