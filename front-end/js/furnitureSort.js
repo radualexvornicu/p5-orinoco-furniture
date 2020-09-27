@@ -390,7 +390,7 @@ class furnitureSort {
         event.preventDefault();
         console.log('Go Go control !');
         let regex = /[~`!#$%\^&*+=\-\[\]\';,/{}|\":<>\?0123456789 ]/;
-        let regexCity = /[~`!#$%\^&*+=[\]\';,/{}|\":<>\?0123456789 ]/;
+        let regexCity = /[~`!#$%\^&*+=[\]\';,/{}|\":<>\?0123456789]/;
         let regexAddress = /[~`!#$%\^&*+=[\]\';/{}|\":<>\?]/;
         let regexMail = /.+@.+\..+/;
         let formNom = document.getElementById('formName').value;
