@@ -390,19 +390,52 @@ class furnitureSort {
         event.preventDefault();
         console.log('Go Go control !');
         let regex = /[~`!#$%\^&*+=\-\[\]\';,/{}|\":<>\?0123456789 ]/;
-        let regexAddress = /[~`!#$%\^&*+=\-\[\]\';/{}|\":<>\?]/;
+        let regexCity = /[~`!#$%\^&*+=[\]\';,/{}|\":<>\?0123456789 ]/;
+        let regexAddress = /[~`!#$%\^&*+=[\]\';/{}|\":<>\?]/;
         let regexMail = /.+@.+\..+/;
-        let formName = document.getElementById('formName').value;
+        let formNom = document.getElementById('formName').value;
         let formPrename = document.getElementById('formPrename').value;
         let formAdresse = document.getElementById('formAdresse').value;
         let formCity = document.getElementById('formCity').value;
         let formMail = document.getElementById('formMail').value;
-        if (formName.match(regex) || formPrename.match(regex) || formAdresse.match(regexAddress) || formAdresse == ' ' || formCity.match(regex) || !formMail.match(regexMail)) {
-            alert('ERREUR : Veuillez remplir correctement les champs avec des lettres');
+        let br = '\n', mes = '';
+        if(regex.test(formNom)==true){
+            console.log('nom invalide');
+            mes = mes + br + ' - Nom invalide;';
+        }else{
+            console.log('nom ok')
         }
-        else {
-            console.log('Ok to POST !');
-            this.postFurniture();
+        if(regex.test(formPrename)==true){
+            console.log('Prénom invalide');
+            mes = mes + br + ' - Prénom invalide;';
+        }else{
+            console.log('prénom ok')
+        }
+        if(regexCity.test(formCity)==true){
+            console.log('Ville invalide');
+            mes = mes + br + ' - Nom de ville invalide;';
+        }else{
+            console.log('ville ok')
+        }
+        if(regexMail.test(formMail)==false){
+            console.log('mail invalide');
+            mes = mes + br + ' - Mail invalide;';
+        }else{
+            console.log('mail ok')
+        }
+        if(regexAddress.test(formAdresse)==true){
+            console.log('Address invalide');
+            mes = mes + br + ' - Address invalide;';
+        }else{
+            console.log('address ok')
+        }
+        if(regex.test(formNom)==false && regex.test(formPrename)==false && regex.test(formCity)==false && regexMail.test(formMail)==true && regexAddress.test(formAdresse)==false){
+            console.log('On peut POST !')           
+            this.postFurniture(event); // passer à la page confirmation seulement après que postTeddy soit ok
+        }else{
+            //affiche le message d'erreur
+            console.log('il reste un problème');
+            alert('ERREUR :' + br + br + mes);
         }
     };
     // Envoie la requête post de la commande avec le tableau d'items et l'objet contact
