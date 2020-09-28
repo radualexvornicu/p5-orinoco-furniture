@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="Orinoco c'est la boutique en ligne de furniture!">
-
     <link rel="stylesheet" href="../front-end/style.css">
     <link rel="icon" href="../front-end/img/logo-tab.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-
     <title>Orinoco</title>
 </head>
 
@@ -30,13 +27,11 @@
             <div id="basket" class="d-flex flex-column w-50 p-5">
                 <h1>Panier</h1>
                 <div id="basketInner" class="d-flex flex-column ">
-
                 </div>
             </div>
             <div class="d-flex flex-column w-50 p-5" id="contact">
                 <h1>Contact</h1>
                 <form method="post" action="" name="frm">
-
                     <div class="form-group">
                         <label for="formName">Nom : </label>
                         <input type="text" id="formName" class="form-control" required name="formNom">
@@ -49,8 +44,6 @@
                         <label for="formMail">E-mail :</label>
                         <input type="email" id="formMail" class="form-control" required name="formMail">
                     </div>
-
-
                     <div class="form-group">
                         <label for="formAdresse">Adresse :</label>
                         <input type="text" id="formAdresse" class="form-control" required name="formAdresse">
@@ -59,8 +52,6 @@
                         <label for="formCity">Ville :</label>
                         <input type="text" id="formCity" class="form-control" required name="formCity">
                     </div>
-
-
                     <div class="form-group">
                         <input type="button" value="Je valide mon panier et mes informations" class="btn btn-dark"
                             id="sendPost">
@@ -78,16 +69,18 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../front-end/js/panier.js"></script>
+    <script type="text/javascript" src="../front-end/js/getBasketCount.js"></script>
+    <script type="text/javascript" src="../front-end/js/confirmation.js"></script>
+    <script type="text/javascript" src="../front-end/js/panieShowList.js"></script>
 
-    <script type="text/javascript" src="../front-end/js/furnitureSort.js"></script>
     <script>
-        let furniture = new furnitureSort();
-        furniture.getFromStorage();
-        furniture.getBasketCount();
+        getFromStorage();
+        getBasketCount();
+        createItemsInBasket();
     </script>
 </body>
 
