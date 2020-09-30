@@ -38,7 +38,7 @@ class furnitureSort {
                 imageFurniture.setAttribute('alt', 'preview of this furniture');
                 let tagFurniture = document.createElement("div");
                 tagFurniture.setAttribute('class', 'card-body bg-secondary p-1 text-center');
-                let nameFurniture = document.createElement("h3");
+                let nameFurniture = document.createElement("h5");
                 nameFurniture.textContent = furnitureOne.name;
                 nameFurniture.setAttribute('class', 'card-title m-0');
                 let priceFurniture = document.createElement("p");
@@ -47,7 +47,7 @@ class furnitureSort {
                 // Ouverture de la page produit correspondant au clic sur la fiche de la page d'accueil, grâce à son id.
                 let buttonFurniture = document.createElement("a");
                 buttonFurniture.textContent = "Détails " + furnitureOne.name;
-                buttonFurniture.setAttribute('class', 'btn btn-warning');
+                buttonFurniture.setAttribute('class', 'btn btn-warning text-break');
                 buttonFurniture.setAttribute('href', 'produit.html?id=' + furnitureOne._id);
                 holder.appendChild(iconFurniture);
                 iconFurniture.appendChild(imageFurniture);
