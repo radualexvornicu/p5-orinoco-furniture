@@ -107,7 +107,7 @@ width: 1.5rem;
 text-align: center;
 }
 @media only screen and (max-width: 900px) {
-   main{
+    main{
        font-size: 0.7rem!important;    
     }
     h5{
@@ -116,7 +116,18 @@ text-align: center;
     a{
         font-size: 0.6rem!important;
     }
-    .card{
-        max-height: 12rem!important;
-    }
+   
+    
 }
+@media only screen and (max-width: 350px) {
+    main{
+        font-size: 0.6rem!important;    
+     }
+     h5{
+         font-size: 0.5rem!important;
+     }
+     a{
+         font-size: 0.5rem!important;
+     }
+    
+ }
