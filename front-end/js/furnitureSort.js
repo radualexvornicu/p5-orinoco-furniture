@@ -1,6 +1,6 @@
 // L'URL de l'API
 const serverUrl = "http://localhost:3000/api/furniture/";
-// Denifir la class
+// Definir la class
 class furnitureSort {
     constructor() {
         this.furnitures = null;
@@ -22,10 +22,10 @@ class furnitureSort {
             console.error('server return: ', response.status)
         }
     }
-    // Avec la promese du getAllFurniture => cree la liste du produit stoke dans le serveur
+    // Avec la promesse du getAllFurniture => crée la liste du produit stocké dans le serveur
     showAllFurniture() {
         const furnitureAll = this.getAllFurniture();
-        // Avec la reponse  => une fonction que prend chaque key et value pour creer un item du produit dans le HTML
+        // Avec la réponse  => une fonction que prend chaque key et value pour créer un item du produit dans le HTML
         furnitureAll.then(function (json) {
             json.forEach(function (furnitureOne) {
                 // Récupération des photo et nom de chaque produit de l'API pour les afficher en page d'accueil sous forme de liste.
@@ -82,12 +82,12 @@ class furnitureSort {
                 console.log('Problem with fetch to server:' + error.message);
             });
     }
-    // Avant d'ajoute une furniture dans localStorake => panier
-    // Verifier si le neuveaux produit existe deja    
+    // Avant d'ajouter une furniture dans localStorage => panier
+    // Vérifier si le nouveaux produit existe déja 
     checkIfDuplicat(basketBag, furnitureBasket) {
         let ok = 1;
         for (let i = 0; i < basketBag.length; i++) {
-            // Si le id existe deja dans le panier
+            // Si l'id existe déjà dans le panier
             // => augmenter le compteur
             if (basketBag[i].id === this.furniture._id) {
                 basketBag[i].count++;
@@ -95,18 +95,18 @@ class furnitureSort {
                 ok = 0;
             }
         }
-        // Si no => adjoute la furniture aux tablou
+        // Si no => ajoute la fourniture aux tableau
         if (ok === 1) {
             basketBag.push(furnitureBasket);
         }
-        // Retourner le tablou avec tout les produits
+        // Retourner le tableau avec tous les produits
         return basketBag;
     }
     // Aux click event ('Metre aux panier')
     addFurniture(event) {
         // Retrouve le panier du localStorage
         let storageBasketBack = localStorage.getItem('storageBasket');
-        // Si le panier existe deja, verifier et adjoute le produit
+        // Si le panier existe déjà, vérifier et ajouter le produit
         if (storageBasketBack) {
             let basketBag = JSON.parse(storageBasketBack);
             if (Array.isArray(basketBag)) {
@@ -117,15 +117,15 @@ class furnitureSort {
                     count: 1,
                     url: this.furniture.imageUrl,
                 }
-                // Apell aux fonction qui verifier si l'utilisateur adjout un neuveau produit
-                // ou un produit qui exist deja
+                // Appel aux fonction qui vérifie si l'utilisateur ajouter un nouveau produit
+                // ou un produit qui exist déjà
                 this.checkIfDuplicat(basketBag, furnitureBasket);
-                // Adjoute le tablou avec tous les produid et le neuveaux produit selecte
+                // Ajouté le tableau avec tous les produits et le nouveaux produit sélecté
                 let storageBasketGo = JSON.stringify(basketBag);
                 localStorage.setItem('storageBasket', storageBasketGo);
             }
             // Si le panier est vide/il n'exist pas dans le localStorage
-            // => creer le panier avec le premier produit
+            // => créée le panier avec le premier produit
         } else {
             let tableBasket = [];
             let furnitureBasket = {
@@ -139,45 +139,45 @@ class furnitureSort {
             let storageBasketGo = JSON.stringify(tableBasket);
             localStorage.setItem('storageBasket', storageBasketGo);
         }
-        // Apell aux fonction qui compte le nombre total des produits qui sont dans le panier
+        // Appel  aux fonction qui compte le nombre total des produits qui sont dans le panier
         this.getBasketCount();
     }
-    // Realiser un EventListener ('click) pour le button 'Mettre dans le panier' 
+    // Réaliser un EventListener ('click) pour le button 'Mettre dans le panier' 
     putInStorage() {
         document.getElementById('basket').addEventListener('click', (event) => {
-            // Apell aux fonction qui va adjoute le produit aux panier
+            // Appel aux fonction qui va ajouter le produit aux panier
             this.addFurniture(event);
             alert("Vous avez ajouté ce produit dans votre panier!'\n'Vous pouvez retourner à la liste des produits!'\n'Ou verifier votre panier!")
 
         });
     }
-    // La fonction qui va creer la liste du produit qui c'est trouve dans le panier
-    // Name, count et price + button de souprime le produit
+    // La fonction qui va créer la liste du produit qui c'est trouvé dans le panier
+    // Icon, Name, count et price + button de supprimer le produit
     createItemsInBasket(basketBag) {
         this.basketBack = basketBag;
         for (let i = 0; i < this.basketBack.length; i++) {
-            // Cree un 'div' HTLM dans le fichier panier.html qui contient le Name, count et price + button de souprime le produit
+            // Créer un 'div' HTML dans le fichier panier.html qui contient le Name, count et price + button de supprimer le produit
             let item = document.createElement("div");
-            // Cree un 'img' avec la image du produit
+            // Créer un 'img' avec la Icon du produit
             item.setAttribute('id', 'item' + [i]);
             item.setAttribute('class', 'item d-sm-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
             let icon = document.createElement("img");
             icon.setAttribute('src', this.basketBack[i].url);
             icon.setAttribute('class', 'img-fluid rounded w-25');
             icon.setAttribute('alt', 'icon of this furniture');
-            // Cree un 'p' avec le Nom
+            // Créer un 'p' avec le Nom
             let name = document.createElement("p");
             name.setAttribute('class', 'w-50 m-1');
             name.textContent = this.basketBack[i].name;
-            // Cree un 'p' avec le Prix
+            // Créer un 'p' avec le Prix
             let price = document.createElement("p");
             price.setAttribute('class', 'w-50 m-0');
             price.textContent = this.basketBack[i].count * this.basketBack[i].price / 100 + ' Euro';
-            // Cree un 'p' avec la quantite
+            // Créer un 'p' avec la quantité
             let increment = document.createElement("p");
             increment.setAttribute('class', 'w-50 m-0');
             increment.textContent = 'X ' + this.basketBack[i].count;
-            // Cree un 'button' de souprime le produit ou de diminue la quantite
+            // Créer un 'button' de supprimer le produit ou de diminuer la quantité
             let cancel = document.createElement("button");
             cancel.setAttribute('id', 'cancel' + [i]);
             cancel.setAttribute('class', 'close text-success');
@@ -195,7 +195,7 @@ class furnitureSort {
             basketInner.appendChild(hr);
         }
     }
-    // La fonction qui va calculer et creer un 'p' HTML avec le prix total des produits du panier
+    // La fonction qui va calculer et créer un 'p' HTML avec le prix total des produits du panier
     createTotalprice(basketBag) {
         this.basketBack = basketBag;
         let total = 0;
@@ -208,7 +208,7 @@ class furnitureSort {
         priceTotal.textContent = 'Prix total : ' + this.priceFinal + ' Euro';
         basketInner.appendChild(priceTotal);
     }
-    // La fonction qui va creer un 'button' HTML pour vider le panier
+    // La fonction qui va créer un 'button' HTML pour vider le panier
     createClearBasket() {
         let clearBasket = document.createElement("button");
         clearBasket.setAttribute('id', 'clearBasket');
@@ -223,16 +223,18 @@ class furnitureSort {
             document.getElementById('basketInner').remove();
         })
     }
-    // La fonction qui va creer un 'p' HTML qui va indique que le panier est vide
+    // La fonction qui va créer un 'p' HTML qui va indique que le panier est vide
     createPanierVide() {
-        let basketVoid = document.createElement("p");
-        basketVoid.setAttribute('id', 'PanierVide');
-        basketVoid.setAttribute('class', 'w-50 m-0');
-        basketVoid.textContent = 'Panier vide';
-        basket.appendChild(basketVoid);
+        if (!document.getElementById('PanierVide')) {
+            let basketVoid = document.createElement("p");
+            basketVoid.setAttribute('id', 'PanierVide');
+            basketVoid.setAttribute('class', 'w-50 m-0');
+            basketVoid.textContent = 'Panier vide';
+            basket.appendChild(basketVoid);
+        }
     }
-    // La fonction qui va verifier les element 'button' pour 'Vider le panier'
-    // ou qui va indique que le panier est vide ou que il a devenu vide    
+    // La fonction qui va vérifier les élément 'button' pour 'Vider le panier'
+    // ou qui va indique que le panier est vide ou qu'il a devenu vide 
     basketTextCheck(basketBag) {
         if (basketBag.length == 0) {
             this.createPanierVide();
@@ -249,7 +251,7 @@ class furnitureSort {
             }
         }
     }
-    // La fonction qui trouve dans le localStorage pour retruve les produits du panier
+    // La fonction qui trouve dans le localStorage pour retrouver les produits du panier
     // et affiche tous les produits du panier
     getFromStorage() {
         let storageBasketBack = localStorage.getItem('storageBasket');
@@ -263,13 +265,13 @@ class furnitureSort {
                     this.basketTextCheck(basketBag);
                 } else {
                     // Si le panier n'est pas vide
-                    // apell aux fonction qui verifier les message correct
+                    // appel aux fonction qui verifier les message correct
                     this.basketTextCheck(basketBag);
-                    // apell aux fonction qui affiche le Name, count et price
+                    // appel aux fonction qui affiche le Name, count et price
                     this.createItemsInBasket(basketBag);
-                    // apell aux fonction qui affiche prix total des produits
+                    // appel aux fonction qui affiche prix total des produits
                     this.createTotalprice(basketBag);
-                    // apell aux fonction qui cree le 'button' HTML 'vide le panier'
+                    // appel aux fonction qui crée le 'button' HTML 'vide le panier'
                     this.createClearBasket();
                 }
             } else {
@@ -282,8 +284,8 @@ class furnitureSort {
             this.checkEmptyInput(event);
         })
     }
-    // La fonction qui compte la quantite des produits qui sont dans le panier
-    // l'appel est realise quand la quantite se modifie
+    // La fonction qui compte la quantité  des produits qui sont dans le panier
+    // l'appel est réalisé quand la quantité  se modifie
     getBasketCount() {
         let storageBasketBack = localStorage.getItem('storageBasket');
         let basketBag = JSON.parse(storageBasketBack);
@@ -297,34 +299,34 @@ class furnitureSort {
             document.getElementById('basketCount').textContent = "0"
         }
     }
-    // La fonction qui realise la elimination d'un produit ou de reduir ca quantite
+    // La fonction qui réalise la elimination d'un produit ou de réduire sa quantité
     removeFurniture(i) {
-        // Si la quantite est plus de 1, reduir la quantite
+        // Si la quantite est plus de 1, réduire la quantité
         if (this.basketBack[i].count > 1) {
-            this.basketBack[i].count -= 1;
+            this.basketBack[i].count--;
             let storageBasketBack = JSON.stringify(this.basketBack);
             localStorage.clear();
             localStorage.setItem('storageBasket', storageBasketBack);
-            // Si la quantite est unique, eliminer totalement le produit et son contenu HTLM
+            // Si la quantité est unique, éliminer totalement le produit et son contenu HTML
         } else {
             this.basketBack.splice(i, 1);
             let storageBasketBack = JSON.stringify(this.basketBack);
             localStorage.clear();
             localStorage.setItem('storageBasket', storageBasketBack);
-            // Apre la elimination, recreer la liste des produits
+            // Après la elimination, recréer la liste des produits
             this.getFromStorage();
         }
-        // Apre la reduction du quantite, recreer la liste des produits        
+        // Après la réduction du quantite, recréer la liste des produits        
         this.getFromStorage();
-        // Et compte la nombre des produits
+        // Et compte le nombre des produits
         this.getBasketCount();
     }
-    // Vérifie que les champs du formulaire ne sont pas vides
+    // Vérifie que le panier n'est pas vides
     checkEmptyInput(event) {
         event.preventDefault();
         let storageBasketBack = localStorage.getItem('storageBasket');
         let basketBack = JSON.parse(storageBasketBack);
-        // Si le panier est pas vide et sa longueur supérieur à 0 sinon, alert panier vide
+        // Si le panier n'est pas vide et sa longueur supérieur à 0 sinon, alert panier vide
         if (basketBack != null && basketBack.length > 0) {
             var tabId = new Array('formName', 'formPrename', 'formMail', 'formAdresse', 'formCity');
             var tabMessage = new Array('votre nom', 'votre prénom', 'votre email', 'votre adresse', 'votre ville');
@@ -336,7 +338,7 @@ class furnitureSort {
                     mes = mes + br + ' - ' + tabMessage[i] + ' ;';
                 }
             }
-            //si message différent de '', affiche le message en alert sinon... appelle controlPanier
+            //si message différent de '', affiche le message en alert sinon... appelle controlBasket
             if (mes != '') {
                 alert('ERREUR :' + br + br + 'Il manque :' + mes);
             } else {
@@ -390,7 +392,7 @@ class furnitureSort {
             console.log('address ok')
         }
         if (regex.test(formNom) == false && regex.test(formPrename) == false && regex.test(formCity) == false && regexMail.test(formMail) == true && regexAddress.test(formAdresse) == false) {
-            this.postFurniture(event); // passer à la page confirmation seulement après que postTeddy soit ok
+            this.postFurniture(event); // passer à la page confirmation seulement après que postFurniture soit ok
         } else {
             //affiche le message d'erreur
             alert('ERREUR :' + br + br + mes);
@@ -420,7 +422,7 @@ class furnitureSort {
         }
         // Définition de la requête POST au serveur
         // et des actions: vide le panier (localStorage), met la valeur du montant total du panier dans le localStorage
-        fetch('http://localhost:3000/api/furniture/order', {
+        fetch(serverUrl + 'order', {
             method: 'post',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -439,7 +441,6 @@ class furnitureSort {
                 alert("Votre panier est vide, merci d'ajouter un article")
                 window.location = 'panier.html';
             }
-
             // Si le panier contient au moins un article, la commande peut être envoyée au serveur
             // (si le formulaire est valide)
             if (this.priceFinal != 0) {
