@@ -85,9 +85,12 @@
 
     <script type="text/javascript" src="../front-end/js/furnitureSort.js"></script>
     <script>
-        let furniture = new furnitureSort();
-        furniture.getFromStorage();
+        window.onload=window.onpageshow= function() {
+            let furniture = new furnitureSort(); 
+            furniture.getFromStorage();       
         furniture.getBasketCount();
+        
+    };        
     </script>
 </body>
 

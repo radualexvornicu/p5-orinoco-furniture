@@ -62,7 +62,7 @@ class furnitureSort {
     // Utilise la réponse pour remplir la carte produit
     getOneFurniture() {
         let id = location.search.substring(4);
-        fetch(serverUrl + '/' + id)
+        fetch(serverUrl + id)
             .then(response => response.json())
             .then((response) => {
                 this.furniture = response;
