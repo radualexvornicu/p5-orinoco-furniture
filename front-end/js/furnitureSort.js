@@ -58,7 +58,7 @@ class furnitureSort {
             })
         });
     };
-    // Attrape le paramètre dans l'URL et l'utilise pour fetch get 
+    // Attrape le paramètre dans l'URL et l'utilise pour fetch get
     // Utilise la réponse pour remplir la carte produit
     getOneFurniture() {
         let id = location.search.substring(4);
