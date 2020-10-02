@@ -36,6 +36,17 @@ body{
 a {
     text-decoration: none;
     }
+.p-basket{
+        margin: 0;
+       margin-left: -1rem;
+       margin-bottom: -1.5rem;
+       border: 1px white;
+       border-radius: 50%;
+       background-color: white;
+       position: relative;
+       width: 1.5rem;
+       text-align: center;
+       }
 @media only screen and (max-width: 900px) {
     main{
        font-size: 0.7rem!important;    
