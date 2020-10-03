@@ -342,10 +342,8 @@ class furnitureSort {
                 localStorage.setItem('storageBasket', storageBasketBack);
                 // Après la elimination, recréer la liste des produits
                 this.getFromStorage();
-                console.log('Thing was saved to the database.');
               } else {
                 // Do nothing!
-                console.log('Thing was not saved to the database.');
               }           
         }
         // Après la réduction du quantite, recréer la liste des produits        
