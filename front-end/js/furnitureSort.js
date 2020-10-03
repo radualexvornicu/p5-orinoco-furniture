@@ -167,7 +167,7 @@ class furnitureSort {
             icon.setAttribute('alt', 'icon of this furniture');
             // Créer un 'p' avec le Nom
             let name = document.createElement("p");
-            name.setAttribute('class', 'w-50 m-1');
+            name.setAttribute('class', 'w-50 m-2');
             name.textContent = this.basketBack[i].name;
             // Créer un 'p' avec le Prix
             let price = document.createElement("p");
@@ -180,16 +180,32 @@ class furnitureSort {
             // Créer un 'button' de supprimer le produit ou de diminuer la quantité
             let cancel = document.createElement("button");
             cancel.setAttribute('id', 'cancel' + [i]);
-            cancel.setAttribute('class', 'close text-success');
-            cancel.textContent = "x"
+            cancel.setAttribute('class', 'btn btn-danger');
+            cancel.textContent = "x";
             cancel.addEventListener('click', (event) => {
                 this.removeFurniture(i);
+            })
+            let minus = document.createElement("button");
+            minus.setAttribute('id', 'minus' + [i]);
+            minus.setAttribute('class', 'btn btn-danger m-1');
+            minus.textContent = "-";
+            minus.addEventListener('click', (event) =>{
+                this.minusFurniture(i);
+            })
+            let plus = document.createElement("button");
+            plus.setAttribute('id', 'plus' + [i]);
+            plus.setAttribute('class', 'btn btn-info m-1');
+            plus.textContent = "+";
+            plus.addEventListener('click', (event) =>{
+                this.plusFurniture(i);
             })
             let hr = document.createElement("hr");
             basketInner.appendChild(item);
             item.appendChild(icon);
             item.appendChild(name);
-            item.appendChild(increment);
+            item.appendChild(minus);
+            item.appendChild(plus);
+            item.appendChild(increment);            
             item.appendChild(price);
             item.appendChild(cancel);
             basketInner.appendChild(hr);
@@ -299,8 +315,18 @@ class furnitureSort {
             document.getElementById('basketCount').textContent = "0"
         }
     }
+    // La fonction qui réalise la augmentation du quantité
+    plusFurniture(i){
+        let storageBasketBack = localStorage.getItem('storageBasket');
+        let basketBag = JSON.parse(storageBasketBack);
+        basketBag[i].count++;
+        let storageBasketGo = JSON.stringify(basketBag);
+        localStorage.setItem('storageBasket', storageBasketGo);  
+        this.getFromStorage();
+        this.getBasketCount();     
+        }
     // La fonction qui réalise la elimination d'un produit ou de réduire sa quantité
-    removeFurniture(i) {
+    minusFurniture(i) {
         // Si la quantite est plus de 1, réduire la quantité
         if (this.basketBack[i].count > 1) {
             this.basketBack[i].count--;
@@ -309,17 +335,41 @@ class furnitureSort {
             localStorage.setItem('storageBasket', storageBasketBack);
             // Si la quantité est unique, éliminer totalement le produit et son contenu HTML
         } else {
+            if (confirm("vous êtes sur le point de supprimer l'élément, vraiment supprimer?")) {
+                this.basketBack.splice(i, 1);
+                let storageBasketBack = JSON.stringify(this.basketBack);
+                localStorage.clear();
+                localStorage.setItem('storageBasket', storageBasketBack);
+                // Après la elimination, recréer la liste des produits
+                this.getFromStorage();
+                console.log('Thing was saved to the database.');
+              } else {
+                // Do nothing!
+                console.log('Thing was not saved to the database.');
+              }           
+        }
+        // Après la réduction du quantite, recréer la liste des produits        
+        this.getFromStorage();
+        // Et compte le nombre des produits
+        this.getBasketCount();
+    }
+    removeFurniture(i){
+        if (confirm("vous êtes sur le point de supprimer l'élément, vraiment supprimer?")) {
             this.basketBack.splice(i, 1);
             let storageBasketBack = JSON.stringify(this.basketBack);
             localStorage.clear();
             localStorage.setItem('storageBasket', storageBasketBack);
             // Après la elimination, recréer la liste des produits
             this.getFromStorage();
-        }
-        // Après la réduction du quantite, recréer la liste des produits        
+            console.log('Thing was saved to the database.');
+          } else {
+            // Do nothing!
+            console.log('Thing was not saved to the database.');
+          }  
+          // Après la réduction du quantite, recréer la liste des produits        
         this.getFromStorage();
         // Et compte le nombre des produits
-        this.getBasketCount();
+        this.getBasketCount();  
     }
     // Vérifie que le panier n'est pas vides
     checkEmptyInput(event) {
