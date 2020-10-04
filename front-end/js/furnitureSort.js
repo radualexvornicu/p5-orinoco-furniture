@@ -160,41 +160,41 @@ class furnitureSort {
             let item = document.createElement("div");
             // Créer un 'img' avec la Icon du produit
             item.setAttribute('id', 'item' + [i]);
-            item.setAttribute('class', 'item d-sm-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
+            item.setAttribute('class', 'd-flex justify-content-between align-items-center flex-row bg-warning rounded p-2');
             let icon = document.createElement("img");
             icon.setAttribute('src', this.basketBack[i].url);
             icon.setAttribute('class', 'img-fluid rounded w-25');
             icon.setAttribute('alt', 'icon of this furniture');
             // Créer un 'p' avec le Nom
-            let name = document.createElement("p");
-            name.setAttribute('class', 'w-50 m-2');
+            let name = document.createElement("h6");
+            name.setAttribute('class', 'w-25 m-2 ');
             name.textContent = this.basketBack[i].name;
             // Créer un 'p' avec le Prix
-            let price = document.createElement("p");
-            price.setAttribute('class', 'w-50 m-0');
+            let price = document.createElement("h6");
+            price.setAttribute('class', 'w-25 m-1 ');
             price.textContent = this.basketBack[i].count * this.basketBack[i].price / 100 + ' Euro';
             // Créer un 'p' avec la quantité
-            let increment = document.createElement("p");
-            increment.setAttribute('class', 'w-50 m-0');
+            let increment = document.createElement("h6");
+            increment.setAttribute('class', 'w-25 m-1 ');
             increment.textContent = 'X ' + this.basketBack[i].count;
             // Créer un 'button' de supprimer le produit ou de diminuer la quantité
             let cancel = document.createElement("button");
             cancel.setAttribute('id', 'cancel' + [i]);
-            cancel.setAttribute('class', 'btn btn-danger');
+            cancel.setAttribute('class', 'btn btn-danger ');
             cancel.textContent = "x";
             cancel.addEventListener('click', (event) => {
                 this.removeFurniture(i);
             })
             let minus = document.createElement("button");
             minus.setAttribute('id', 'minus' + [i]);
-            minus.setAttribute('class', 'btn btn-danger m-1');
+            minus.setAttribute('class', 'btn btn-danger m-1 h6 ');
             minus.textContent = "-";
             minus.addEventListener('click', (event) =>{
                 this.minusFurniture(i);
             })
             let plus = document.createElement("button");
             plus.setAttribute('id', 'plus' + [i]);
-            plus.setAttribute('class', 'btn btn-info m-1');
+            plus.setAttribute('class', 'btn btn-info m-1 h6 ');
             plus.textContent = "+";
             plus.addEventListener('click', (event) =>{
                 this.plusFurniture(i);
@@ -219,8 +219,8 @@ class furnitureSort {
             total += basketBag.count * basketBag.price / 100;
         })
         this.priceFinal = total;
-        let priceTotal = document.createElement("div");
-        priceTotal.setAttribute('class', 'p-2 w-50 m-0');
+        let priceTotal = document.createElement("h4");
+        priceTotal.setAttribute('class', 'p-2 m-0 w-100 ');
         priceTotal.textContent = 'Prix total : ' + this.priceFinal + ' Euro';
         basketInner.appendChild(priceTotal);
     }

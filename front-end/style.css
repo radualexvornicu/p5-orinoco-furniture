@@ -5,7 +5,8 @@ html{
 body{
     font: 1.6rem Helvetica;
     height: 100vh;
-    margin: 0;
+    margin: 5px;
+    width: 100%;
     }
 .grid-container{
     display: grid;
@@ -13,6 +14,7 @@ body{
     grid-template-columns: 1fr;
     grid-template-rows: 5rem 1fr 5rem;
     height: 100%;
+    width: 100%;
 }
 .header{
     grid-area: header;
@@ -57,6 +59,11 @@ a {
     a{
         font-size: 0.6rem!important;
     }
+    #basket{
+        width: 75%!important;
+        float: left!important;
+    }
+   
    
     
 }
