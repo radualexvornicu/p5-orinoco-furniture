@@ -1,3 +1,32 @@
+// La fonction qui trouve dans le localStorage pour retrouver les produits du panier
+// et affiche tous les produits du panier
+getFromStorage = () => {
+    let storageBasketBack = localStorage.getItem('storageBasket');
+    let basketBag = JSON.parse(storageBasketBack);
+    if (storageBasketBack && storageBasketBack.length > 0) {
+        if (Array.isArray(basketBag)) {
+            if (basketBag.length == 0) {
+                // Si le panier est vide
+                // apell aux fonction qui verifier les message correct
+                basketTextCheck(basketBag);
+            } else {
+                // Si le panier n'est pas vide
+                // appel aux fonction qui verifier les message correct
+                basketTextCheck(basketBag);
+                // appel aux fonction qui affiche le Name, count et price
+                createItemsInBasket(basketBag);
+                // appel aux fonction qui affiche prix total des produits
+                createTotalprice(basketBag);
+                // appel aux fonction qui crée le 'button' HTML 'vide le panier'
+                createClearBasket();
+            }
+        } else {
+            console.log('this is not a table');
+        }
+    } else {
+        createPanierVide();
+    }  
+}
 createItemsInBasket = (basketBack) => {
     for (let i = 0; i < basketBack.length; i++) {
         // Créer un 'div' HTML dans le fichier panier.html qui contient le Name, count et price + button de supprimer le produit
@@ -114,36 +143,6 @@ basketTextCheck = (basketBag) => {
             document.getElementById('clearBasket').remove();
         }
     }
-}
-// La fonction qui trouve dans le localStorage pour retrouver les produits du panier
-// et affiche tous les produits du panier
-getFromStorage = () => {
-    let storageBasketBack = localStorage.getItem('storageBasket');
-    let basketBag = JSON.parse(storageBasketBack);
-    if (storageBasketBack && storageBasketBack.length > 0) {
-        if (Array.isArray(basketBag)) {
-            if (basketBag.length == 0) {
-                // Si le panier est vide
-                // apell aux fonction qui verifier les message correct
-                basketTextCheck(basketBag);
-            } else {
-                // Si le panier n'est pas vide
-                // appel aux fonction qui verifier les message correct
-                basketTextCheck(basketBag);
-                // appel aux fonction qui affiche le Name, count et price
-                createItemsInBasket(basketBag);
-                // appel aux fonction qui affiche prix total des produits
-                createTotalprice(basketBag);
-                // appel aux fonction qui crée le 'button' HTML 'vide le panier'
-                createClearBasket();
-            }
-        } else {
-            console.log('this is not a table');
-        }
-    } else {
-        createPanierVide();
-    }
-   
 }
  // La fonction qui réalise la augmentation du quantité
  plusFurniture = (i) => {
