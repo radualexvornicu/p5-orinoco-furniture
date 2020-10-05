@@ -64,8 +64,7 @@
 
 
                     <div class="form-group">
-                        <input type="button" value="Je valide mon panier et mes informations" class="btn btn-dark"
-                            id="sendPost">
+                        <input type="button" value="Je valide mon panier et mes informations" class="btn btn-dark" id="sendPost">
                     </div>
                 </form>
             </div>
@@ -85,14 +84,15 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="../front-end/js/furnitureSort.js"></script>
+    <script type="text/javascript" src="../front-end/js/panier.js"></script>
+    <script type="text/javascript" src="../front-end/js/getBasketCount.js"></script>
+    <script type="text/javascript" src="../front-end/js/confirmation.js"></script>
     <script>
         window.onload=window.onpageshow= function() {
-            let furniture = new furnitureSort(); 
-            furniture.getFromStorage();       
-        furniture.getBasketCount();
-        
-    };        
+        getFromStorage();       
+        getBasketCount();      
+    };     
+        formSendPost();
     </script>
 </body>
 
