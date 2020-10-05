@@ -16,7 +16,7 @@ getFromStorage = () => {
                 // appel aux fonction qui affiche le Name, count et price
                 createItemsInBasket(basketBag);
                 // appel aux fonction qui affiche prix total des produits
-                createTotalprice(basketBag);
+                createTotalPrice(basketBag);
                 // appel aux fonction qui crée le 'button' HTML 'vide le panier'
                 createClearBasket();
             }
@@ -27,6 +27,37 @@ getFromStorage = () => {
         createPanierVide();
     }  
 }
+// La fonction qui va vérifier les élément 'button' pour 'Vider le panier'
+// ou qui va indique que le panier est vide ou qu'il a devenu vide 
+basketTextCheck = (basketBag) => {
+    if (basketBag.length == 0) {
+        this.createPanierVide();
+        if (document.getElementById('clearBasket')) {
+            document.getElementById('clearBasket').remove();
+            document.getElementById('PanierVide').remove();
+        } else {
+            if(document.getElementById('basketInner')){
+                document.getElementById('basketInner').remove();
+            }
+        }
+    } else {
+        document.getElementById('basketInner').innerHTML = null;
+        if (document.getElementById('clearBasket')) {
+            document.getElementById('clearBasket').remove();
+        }
+    }
+}
+// La fonction qui va créer un 'p' HTML qui va indique que le panier est vide
+createPanierVide = () => {
+    if (!document.getElementById('PanierVide')) {
+        let basketVoid = document.createElement("p");
+        basketVoid.setAttribute('id', 'PanierVide');
+        basketVoid.setAttribute('class', 'w-50 m-0');
+        basketVoid.textContent = 'Panier vide';
+        basket.appendChild(basketVoid);
+    }
+}
+// La fonction qui va créer un 'p' HTML qui va indique que le panier est vide
 createItemsInBasket = (basketBack) => {
     for (let i = 0; i < basketBack.length; i++) {
         // Créer un 'div' HTML dans le fichier panier.html qui contient le Name, count et price + button de supprimer le produit
@@ -88,7 +119,7 @@ createItemsInBasket = (basketBack) => {
     }
 }
 // La fonction qui va calculer et créer un 'p' HTML avec le prix total des produits du panier
-createTotalprice = (basketBack) => {
+createTotalPrice = (basketBack) => {
     let total = 0;
     basketBack.forEach(function (basketBag) {
         total += basketBag.count * basketBag.price / 100;
@@ -113,36 +144,6 @@ createClearBasket = () => {
         clearBasket.remove();
         document.getElementById('basketInner').remove();
     })
-}
-// La fonction qui va créer un 'p' HTML qui va indique que le panier est vide
-createPanierVide = () => {
-    if (!document.getElementById('PanierVide')) {
-        let basketVoid = document.createElement("p");
-        basketVoid.setAttribute('id', 'PanierVide');
-        basketVoid.setAttribute('class', 'w-50 m-0');
-        basketVoid.textContent = 'Panier vide';
-        basket.appendChild(basketVoid);
-    }
-}
-// La fonction qui va vérifier les élément 'button' pour 'Vider le panier'
-// ou qui va indique que le panier est vide ou qu'il a devenu vide 
-basketTextCheck = (basketBag) => {
-    if (basketBag.length == 0) {
-        this.createPanierVide();
-        if (document.getElementById('clearBasket')) {
-            document.getElementById('clearBasket').remove();
-            document.getElementById('PanierVide').remove();
-        } else {
-            if(document.getElementById('basketInner')){
-                document.getElementById('basketInner').remove();
-            }
-        }
-    } else {
-        document.getElementById('basketInner').innerHTML = null;
-        if (document.getElementById('clearBasket')) {
-            document.getElementById('clearBasket').remove();
-        }
-    }
 }
  // La fonction qui réalise la augmentation du quantité
  plusFurniture = (i) => {
@@ -180,6 +181,7 @@ minusFurniture = (i) => {
     getFromStorage();
     // Et compte le nombre des produits
 }
+// La fonction qui réalise la elimination d'un produit
 removeFurniture = (i) => {
     let storageBasketBack = localStorage.getItem('storageBasket');
     let basketBack = JSON.parse(storageBasketBack);
@@ -196,5 +198,4 @@ removeFurniture = (i) => {
       }  
       // Après la réduction du quantite, recréer la liste des produits        
     getFromStorage();
-    // Et compte le nombre des produits
 }

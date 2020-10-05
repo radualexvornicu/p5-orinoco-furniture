@@ -1,4 +1,6 @@
+// L'URL de l'API
 const serverUrl = "http://localhost:3000/api/furniture/";
+// La fonction qui va monitoriser la bouton d'envoi du commande
 formSendPost = () => {
     document.getElementById('sendPost').addEventListener('click', (event) => {
         checkEmptyInput(event);
@@ -21,18 +23,18 @@ checkEmptyInput = (event) => {
                 mes = mes + br + ' - ' + tabMessage[i] + ' ;';
             }
         }
-        //si message différent de '', affiche le message en alert sinon... appelle controlBasket
+        //si message différent de '', affiche le message en alert sinon... appelle controlForm
         if (mes != '') {
             alert('ERREUR :' + br + br + 'Il manque :' + mes);
         } else {
-            controlBasket(event);
+            controlForm(event);
         }
     } else {
         alert("Votre panier est vide, merci d'ajouter un article")
     }
 }
 // Vérifie les inputs du formulaire
-controlBasket = (event) => {
+controlForm = (event) => {
     event.preventDefault();
     let regex = /[~`!#$%\^&*+=\-\[\]\';,/{}|\":<>\?0123456789 ]/;
     let regexCity = /[~`!#$%\^&*+=[\]\';,/{}|\":<>\?0123456789]/;

@@ -1,4 +1,6 @@
+// L'URL de l'API
 const serverUrl = "http://localhost:3000/api/furniture/";
+// Global declaration du variable qui va gestioner la reponse
 let furniture;
 getOneFurniture =() => {
     let id = location.search.substring(4);
@@ -70,6 +72,7 @@ putInStorage =() => {
         alert("Vous avez ajouté ce produit dans votre panier!'\n'Vous pouvez retourner à la liste des produits!'\n'Ou verifier votre panier!")
     });
 }
+// Fonction qui verifier si l'utilisateur adjout un neuveau produit
 checkIfDuplicat =(basketBag, furnitureBasket) => {
     let ok = 1;
     for (let i = 0; i < basketBag.length; i++) {
